@@ -1,0 +1,4 @@
+.ipynb_checkpoints/
+.docker/
+config_api_google_search.py
+offres.csv

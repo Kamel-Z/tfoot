@@ -1,0 +1,33 @@
+image: python:3.8
+
+stages:
+  - generate
+  - deploy
+
+generate:
+  stage: generate
+  script:
+    - pip install pipenv
+    - pipenv install --dev --deploy
+    - pipenv run jupyter nbconvert --to=html --TemplateExporter.exclude_input=True --output-dir=dist --output=index Foot.ipynb
+  artifacts:
+    paths:
+      - dist
+  only:
+    refs:
+      - master
+    changes:
+      - Foot.ipynb
+
+pages:
+  stage: deploy
+  script:
+    - cp -R dist public
+  artifacts:
+    paths:
+      - public/
+  only:
+    refs:
+      - master
+    changes:
+      - Foot.ipynb
